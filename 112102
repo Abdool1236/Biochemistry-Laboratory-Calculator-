@@ -1,0 +1,4911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Biochemistry Laboratory Calculator - Online tools for biochemistry students, researchers and laboratory professionals.">
+<title>Biochemistry Laboratory Calculator</title>
+      <link rel="icon" href="biochemistry-icon.png">
+
+<style>
+     <link rel="stylesheet" href="style.css">
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #1b5e20;
+    font-size: 32px;
+    margin-top: 25px;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   CALCULATOR BOX
+========================= */
+
+.calculator {
+    background-color: white;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #2e7d32;
+    margin-top: 0;
+}
+
+h3 {
+    color: #2e7d32;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+}
+
+button {
+    cursor: pointer;
+}
+
+.calculator button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2e7d32;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.calculator button:active {
+    transform: scale(0.98);
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #1b5e20;
+    line-height: 1.6;
+}
+
+.formula {
+    background-color: #f1f8e9;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   HAMBURGER BUTTON
+========================= */
+
+.menu-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+
+    width: 50px;
+    height: 50px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #1b5e20;
+    color: white;
+
+    font-size: 28px;
+    line-height: 50px;
+
+    z-index: 1002;
+}
+
+
+/* =========================
+   DARK OVERLAY
+========================= */
+
+.menu-overlay {
+    display: none;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0,0,0,0.35);
+
+    z-index: 1000;
+}
+
+
+/* =========================
+   SIDE MENU
+========================= */
+
+.side-menu {
+    position: fixed;
+
+    top: 0;
+    left: -300px;
+
+    width: 280px;
+    height: 100%;
+
+    background-color: white;
+
+    padding: 25px 20px;
+
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+
+    z-index: 1001;
+
+    overflow-y: auto;
+
+    transition: left 0.3s ease;
+}
+
+.side-menu.open {
+    left: 0;
+}
+
+.menu-overlay.open {
+    display: block;
+}
+
+.side-menu h2 {
+    color: #1b5e20;
+    margin-top: 25px;
+}
+
+.side-menu p {
+    font-weight: bold;
+    color: #777;
+    margin-top: 30px;
+}
+
+.side-menu button {
+    width: 100%;
+
+    margin-top: 8px;
+    padding: 12px;
+
+    text-align: left;
+
+    background-color: #f1f8e9;
+    color: #1b5e20;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+.side-menu button:hover {
+    background-color: #dcedc8;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 20px;
+    color: #666;
+    line-height: 1.7;
+}
+   .quiz-option {
+
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:8px;
+    background:#f1f8e9;
+    color:#1b5e20;
+    font-size:16px;
+    cursor:pointer;
+
+}
+
+
+.quiz-option:hover {
+
+    background:#dcedc8;
+
+}
+
+
+.correct {
+
+    background:#a5d6a7 !important;
+
+}
+
+
+.wrong {
+
+    background:#ef9a9a !important;
+
+} 
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     HAMBURGER BUTTON
+========================= -->
+
+<button
+    class="menu-button"
+    onclick="toggleMenu()"
+    aria-label="Open menu">
+
+    ☰
+
+</button>
+
+
+<!-- =========================
+     OVERLAY
+========================= -->
+
+<div
+    id"menuOverlay"
+    class="menu-overlay"
+    onclick="closeMenu()">
+</div>
+  
+
+
+<!-- =========================
+     SIDE MENU
+========================= -->
+
+<div id="sideMenu" class="side-menu">
+
+    <h2>🧪 Biochemistry</h2>
+
+    <p>Calculations</p>
+
+    <button onclick="showCalculator('molarity')">
+        🧪 Molarity
+    </button>
+
+    <button onclick="showCalculator('dilution')">
+        💧 Dilution
+    </button>
+
+    <button onclick="showCalculator('molecular')">
+        🧬 Molecular Weight
+    </button>
+
+    <button onclick="showCalculator('molality')">
+        🧪 Molality
+    </button>
+
+    <button onclick="showCalculator('normality')">
+        ⚗️ Normality
+    </button>
+
+    <button onclick="showCalculator('ph')">
+        ⚗️ pH Calculator
+    </button>
+
+    <button onclick="showCalculator('poh')">
+        🧪 pOH
+    </button>
+
+    <button onclick="showCalculator('buffer')">
+        🧬 Buffer / Henderson–Hasselbalch
+    </button>
+
+    <button onclick="showCalculator('beer')">
+        🔬 Beer–Lambert Law
+    </button>
+
+    <button onclick="showCalculator('enzyme')">
+        🧬 Enzyme Activity
+    </button>
+
+    <button onclick="showCalculator('specificActivity')">
+        🧪 Specific Activity
+    </button>
+
+    <button onclick="showCalculator('michaelis')">
+        📈 Km & Vmax
+    </button>
+
+    <button onclick="showCalculator('protein')">
+        🧬 Protein Concentration
+    </button>
+
+    <button onclick="showCalculator('gc')">
+        🧬 DNA GC% Calculator
+    </button>
+
+    <button onclick="showCalculator('dnaWeight')">
+        🧬 DNA Molecular Weight
+    </button>
+
+    <button onclick="showCalculator('dnaComplement')">
+        🧬 DNA Complementary Sequence
+    </button>
+
+    <button onclick="showCalculator('unitConverter')">
+        🔄 Unit Converter
+    </button>
+
+
+    <p>📚 Biochemistry Formulas</p>
+
+    <button onclick="showCalculator('formulaLibrary')">
+        📖 Formula Library
+    </button>
+
+
+    <p>🔎 Study Tools</p>
+
+    <button onclick="showCalculator('searchTool')">
+        🔎 Biochemistry Search
+    </button>
+
+    <button onclick="showCalculator('percentage')">
+        🧪 Percentage Concentration
+    </button>
+
+    <button onclick="showCalculator('serialDilution')">
+        🔬 Serial Dilution
+    </button>
+
+    <button onclick="showCalculator('rcf')">
+        🌀 RCF Centrifugation
+    </button>
+
+    <button onclick="showCalculator('nucleicAcid')">
+        🧬 DNA/RNA Concentration
+    </button>
+
+    <button onclick="showCalculator('proteinMW')">
+        🧬 Protein Molecular Weight
+    </button>
+
+    <button onclick="showCalculator('aminoAcid')">
+        🧬 Amino Acid Calculator
+    </button>
+
+    <button onclick="showCalculator('absorbanceConcentration')">
+        🔬 Absorbance → Concentration
+    </button>
+
+    <button onclick="showCalculator('a260a280')">
+        🔬 A260/A280 Purity Ratio
+    </button>
+
+    <button onclick="showCalculator('tmCalculator')">
+        🧬 DNA Melting Temperature
+    </button>
+      
+      <p>📚 Biochemistry Topics</p>
+
+      <button onclick="('topics')"></button>
+
+
+      <button onclick="showTopic('carbohydrates')">
+    🍞 Carbohydrate Biochemistry
+      </button>
+
+      <button onclick="showTopic('proteins')">
+    🥩 Protein Biochemistry
+      </button>
+
+      <button onclick="showTopic('lipids')">
+    🧈 Lipid Biochemistry
+      </button>
+
+      <button onclick="showTopic('nucleicAcids')">
+    🧬 Nucleic Acids
+      </button>
+
+      <button onclick="showTopic('bioenergetics')">
+    ⚡ Bioenergetics
+      </button>
+
+      <button onclick="showTopic('enzymology')">
+    🧪 Enzymology
+      </button>
+
+      <button onclick="showTopic('metabolism')">
+    🔥 Metabolism
+      </button>
+
+      <button onclick="showTopic('clinical')">
+    🩸 Clinical Biochemistry
+      </button>
+
+      <button onclick="showTopic('molecularBiology')">
+    🧬 Molecular Biology
+      </button>
+
+      <button onclick="showTopic('immunochemistry')">
+    🛡️ Immunochemistry
+      </button>
+
+      <button onclick="showTopic('hormones')">
+    🧪 Hormones & Signaling
+      </button>
+
+      <button onclick="showTopic('vitamins')">
+    💊 Vitamins & Minerals
+      </button>
+
+      <button onclick="showTopic('membranes')">
+    🧫 Membrane Biochemistry
+      </button>
+
+      <button onclick="showTopic('genetics')">
+    🧬 Genetics
+      </button>
+
+      <button onclick="showTopic('biotechnology')">
+    🔬 Biotechnology
+       </button>
+      <button onclick="showQuiz()">
+    📝 Biochemistry Quiz
+</button>
+      <a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<a href="#privacy">Privacy Policy</a>
+      
+</div>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<h1>
+    🧪 Biochemistry Laboratory Calculator
+</h1>
+
+<p class="welcome">
+    Welcome to my Biochemistry Calculator
+</p>
+
+
+<!-- =========================
+     MOLARITY
+========================= -->
+
+<div class="calculator" id="molarity" style="display:none;">
+
+    <h2>Molarity Calculator</h2>
+
+    <div class="formula">
+        Formula: M = moles ÷ volume
+    </div>
+
+    <label>Amount of substance (mol):</label>
+
+    <input
+        type="number"
+        id="moles"
+        placeholder="Enter moles"
+        step="any">
+
+    <label>Volume (L):</label>
+
+    <input
+        type="number"
+        id="volume"
+        placeholder="Enter volume in liters"
+        step="any">
+
+    <button onclick="calculateMolarity()">
+        Calculate Molarity
+    </button>
+
+    <div class="result" id="result">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DILUTION
+========================= -->
+
+<div class="calculator" id="dilution" style="display:none;">
+
+    <h2>Dilution Calculator</h2>
+
+    <div class="formula">
+        Formula: C₁V₁ = C₂V₂
+    </div>
+
+    <label>Initial concentration (C₁):</label>
+
+    <input
+        type="number"
+        id="c1"
+        placeholder="Enter initial concentration"
+        step="any">
+
+    <label>Final concentration (C₂):</label>
+
+    <input
+        type="number"
+        id="c2"
+        placeholder="Enter final concentration"
+        step="any">
+
+    <label>Final volume (V₂) in L:</label>
+
+    <input
+        type="number"
+        id="v2"
+        placeholder="Enter final volume"
+        step="any">
+
+    <button onclick="calculateDilution()">
+        Calculate V₁
+    </button>
+
+    <div class="result" id="dilutionResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MOLECULAR WEIGHT
+========================= -->
+
+<div class="calculator" id="molecular" style="display:none;">
+
+    <h2>Molecular Weight Calculator</h2>
+
+    <div class="formula">
+        Example: H2O, NaCl, CO2, C6H12O6
+    </div>
+
+    <label>Molecular formula:</label>
+
+    <input
+        type="text"
+        id="molecularFormula"
+        placeholder="Enter formula e.g. H2O">
+
+    <button onclick="calculateMolecularWeight()">
+        Calculate Molecular Weight
+    </button>
+
+    <div class="result" id="molecularResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MOLALITY
+========================= -->
+
+<div class="calculator" id="molality" style="display:none;">
+
+    <h2>Molality Calculator</h2>
+
+    <div class="formula">
+        Formula: m = moles of solute ÷ mass of solvent (kg)
+    </div>
+
+    <label>Amount of solute (mol):</label>
+
+    <input
+        type="number"
+        id="molalityMoles"
+        placeholder="Enter moles"
+        step="any">
+
+    <label>Mass of solvent (kg):</label>
+
+    <input
+        type="number"
+        id="solventMass"
+        placeholder="Enter solvent mass in kg"
+        step="any">
+
+    <button onclick="calculateMolality()">
+        Calculate Molality
+    </button>
+
+    <div class="result" id="molalityResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     NORMALITY
+========================= -->
+
+<div class="calculator" id="normality" style="display:none;">
+
+    <h2>Normality Calculator</h2>
+
+    <div class="formula">
+        Formula: N = equivalents ÷ volume (L)
+    </div>
+
+    <label>Number of equivalents:</label>
+
+    <input
+        type="number"
+        id="equivalents"
+        placeholder="Enter equivalents"
+        step="any">
+
+    <label>Volume (L):</label>
+
+    <input
+        type="number"
+        id="normalityVolume"
+        placeholder="Enter volume in liters"
+        step="any">
+
+    <button onclick="calculateNormality()">
+        Calculate Normality
+    </button>
+
+    <div class="result" id="normalityResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     pH
+========================= -->
+
+<div class="calculator" id="ph" style="display:none;">
+
+    <h2>pH Calculator</h2>
+
+    <div class="formula">
+        Formula: pH = −log₁₀[H⁺]
+    </div>
+
+    <label>
+        Hydrogen ion concentration [H⁺] (M):
+    </label>
+
+    <input
+        type="number"
+        id="hydrogen"
+        placeholder="Example: 0.001"
+        step="any">
+
+    <button onclick="calculatePH()">
+        Calculate pH
+    </button>
+
+    <div class="result" id="phResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     pOH
+========================= -->
+
+<div class="calculator" id="poh" style="display:none;">
+
+    <h2>pOH Calculator</h2>
+
+    <div class="formula">
+        Formula: pOH = −log₁₀[OH⁻]
+    </div>
+
+    <label>
+        Hydroxide ion concentration [OH⁻] (M):
+    </label>
+
+    <input
+        type="number"
+        id="hydroxide"
+        placeholder="Example: 0.001"
+        step="any">
+
+    <button onclick="calculatePOH()">
+        Calculate pOH
+    </button>
+
+    <div class="result" id="pohResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     BUFFER
+========================= -->
+
+<div class="calculator" id="buffer" style="display:none;">
+
+    <h2>Buffer Calculator</h2>
+
+    <div class="formula">
+        Formula: pH = pKa + log₁₀([A⁻] ÷ [HA])
+    </div>
+
+    <label>pKa:</label>
+
+    <input
+        type="number"
+        id="pka"
+        placeholder="Enter pKa"
+        step="any">
+
+    <label>
+        Concentration of conjugate base [A⁻]:
+    </label>
+
+    <input
+        type="number"
+        id="baseConcentration"
+        placeholder="Enter [A⁻]"
+        step="any">
+
+    <label>
+        Concentration of weak acid [HA]:
+    </label>
+
+    <input
+        type="number"
+        id="acidConcentration"
+        placeholder="Enter [HA]"
+        step="any">
+
+    <button onclick="calculateBuffer()">
+        Calculate pH
+    </button>
+
+    <div class="result" id="bufferResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     BEER-LAMBERT
+========================= -->
+
+<div class="calculator" id="beer" style="display:none;">
+
+    <h2>Beer–Lambert Law</h2>
+
+    <div class="formula">
+        Formula: A = ε × c × l
+    </div>
+
+    <label>Absorbance (A):</label>
+
+    <input
+        type="number"
+        id="absorbance"
+        placeholder="Enter absorbance"
+        step="any">
+
+    <label>
+        Molar absorptivity ε
+        (L·mol⁻¹·cm⁻¹):
+    </label>
+
+    <input
+        type="number"
+        id="molarAbsorptivity"
+        placeholder="Enter ε"
+        step="any">
+
+    <label>
+        Concentration c (mol/L):
+    </label>
+
+    <input
+        type="number"
+        id="concentration"
+        placeholder="Enter concentration"
+        step="any">
+
+    <label>
+        Path length l (cm):
+    </label>
+
+    <input
+        type="number"
+        id="pathLength"
+        placeholder="Enter path length"
+        step="any">
+
+    <button onclick="calculateBeer()">
+        Calculate
+    </button>
+
+    <div class="result" id="beerResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ENZYME ACTIVITY
+========================= -->
+
+<div class="calculator" id="enzyme" style="display:none;">
+
+    <h2>Enzyme Activity Calculator</h2>
+
+    <div class="formula">
+        Formula: Activity = ΔProduct ÷ time
+    </div>
+
+    <label>
+        Amount of product formed (µmol):
+    </label>
+
+    <input
+        type="number"
+        id="productAmount"
+        placeholder="Enter amount in µmol"
+        step="any">
+
+    <label>
+        Reaction time (min):
+    </label>
+
+    <input
+        type="number"
+        id="reactionTime"
+        placeholder="Enter time in minutes"
+        step="any">
+
+    <button onclick="calculateEnzymeActivity()">
+        Calculate Activity
+    </button>
+
+    <div class="result" id="enzymeResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SPECIFIC ACTIVITY
+========================= -->
+
+<div class="calculator" id="specificActivity" style="display:none;">
+
+    <h2>Specific Activity Calculator</h2>
+
+    <div class="formula">
+        Formula: Specific Activity =
+        Enzyme Activity ÷ Protein Amount
+    </div>
+
+    <label>
+        Enzyme Activity (µmol/min):
+    </label>
+
+    <input
+        type="number"
+        id="specificEnzymeActivity"
+        placeholder="Enter enzyme activity"
+        step="any">
+
+    <label>
+        Protein Amount (mg):
+    </label>
+
+    <input
+        type="number"
+        id="proteinAmount"
+        placeholder="Enter protein amount"
+        step="any">
+
+    <button onclick="calculateSpecificActivity()">
+        Calculate Specific Activity
+    </button>
+
+    <div class="result" id="specificActivityResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MICHAELIS-MENTEN
+========================= -->
+
+<div class="calculator" id="michaelis" style="display:none;">
+
+    <h2>Michaelis–Menten Calculator</h2>
+
+    <div class="formula">
+        Formula:
+        v = (Vmax × [S]) ÷ (Km + [S])
+    </div>
+
+    <label>Vmax (µmol/min):</label>
+
+    <input
+        type="number"
+        id="vmax"
+        placeholder="Enter Vmax"
+        step="any">
+
+    <label>Km (mM):</label>
+
+    <input
+        type="number"
+        id="km"
+        placeholder="Enter Km"
+        step="any">
+
+    <label>
+        Substrate concentration [S] (mM):
+    </label>
+
+    <input
+        type="number"
+        id="substrate"
+        placeholder="Enter [S]"
+        step="any">
+
+    <button onclick="calculateMichaelis()">
+        Calculate Reaction Velocity
+    </button>
+
+    <div class="result" id="michaelisResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PROTEIN CONCENTRATION
+========================= -->
+
+<div class="calculator" id="protein" style="display:none;">
+
+    <h2>Protein Concentration</h2>
+
+    <div class="formula">
+        Formula: c = A ÷ (ε × l)
+    </div>
+
+    <label>Absorbance (A):</label>
+
+    <input
+        type="number"
+        id="proteinAbsorbance"
+        placeholder="Enter absorbance"
+        step="any">
+
+    <label>
+        Molar absorptivity ε
+        (L·mol⁻¹·cm⁻¹):
+    </label>
+
+    <input
+        type="number"
+        id="proteinEpsilon"
+        placeholder="Enter ε"
+        step="any">
+
+    <label>Path length (cm):</label>
+
+    <input
+        type="number"
+        id="proteinPath"
+        placeholder="Enter path length"
+        step="any">
+
+    <button onclick="calculateProtein()">
+        Calculate Concentration
+    </button>
+
+    <div class="result" id="proteinResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DNA GC%
+========================= -->
+
+<div class="calculator" id="gc" style="display:none;">
+
+    <h2>DNA GC% Calculator</h2>
+
+    <div class="formula">
+        Formula:
+        GC% = (G + C) ÷ total bases × 100
+    </div>
+
+    <label>DNA Sequence:</label>
+
+    <input
+        type="text"
+        id="dnaSequence"
+        placeholder="Example: ATGCGCTA">
+
+    <button onclick="calculateGC()">
+        Calculate GC%
+    </button>
+
+    <div class="result" id="gcResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DNA MOLECULAR WEIGHT
+========================= -->
+
+<div class="calculator" id="dnaWeight" style="display:none;">
+
+    <h2>DNA Molecular Weight</h2>
+
+    <div class="formula">
+        Approximation:
+        Molecular Weight ≈ number of bases × 330 g/mol
+    </div>
+
+    <label>DNA Sequence:</label>
+
+    <input
+        type="text"
+        id="dnaWeightSequence"
+        placeholder="Example: ATGCGCTA">
+
+    <button onclick="calculateDNAWeight()">
+        Calculate Molecular Weight
+    </button>
+
+    <div class="result" id="dnaWeightResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DNA COMPLEMENT
+========================= -->
+
+<div class="calculator" id="dnaComplement" style="display:none;">
+
+    <h2>DNA Complementary Sequence</h2>
+
+    <div class="formula">
+        A ↔ T &nbsp;&nbsp; G ↔ C
+    </div>
+
+    <label>DNA Sequence:</label>
+
+    <input
+        type="text"
+        id="complementSequence"
+        placeholder="Example: ATGC">
+
+    <button onclick="calculateComplement()">
+        Find Complement
+    </button>
+
+    <div class="result" id="complementResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     UNIT CONVERTER
+========================= -->
+
+<div class="calculator" id="unitConverter" style="display:none;">
+
+    <h2>Unit Converter</h2>
+
+    <div class="formula">
+        Convert common laboratory units
+    </div>
+
+    <label>Conversion:</label>
+
+    <select id="conversionType">
+
+        <option value="ml_l">mL → L</option>
+        <option value="l_ml">L → mL</option>
+        <option value="mg_g">mg → g</option>
+        <option value="g_mg">g → mg</option>
+        <option value="ug_mg">µg → mg</option>
+        <option value="mg_ug">mg → µg</option>
+        <option value="mmol_mol">mmol → mol</option>
+        <option value="mol_mmol">mol → mmol</option>
+        <option value="ml_ul">mL → µL</option>
+        <option value="ul_ml">µL → mL</option>
+
+    </select>
+
+    <label>Value:</label>
+
+    <input
+        type="number"
+        id="conversionValue"
+        placeholder="Enter value"
+        step="any">
+
+    <button onclick="convertUnit()">
+        Convert
+    </button>
+
+    <div class="result" id="conversionResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FORMULA LIBRARY
+========================= -->
+
+<div class="calculator" id="formulaLibrary" style="display:none;">
+
+    <h2>📚 Biochemistry Formula Library</h2>
+
+    <div class="formula">
+        🧪 Important formulas for Biochemistry students
+    </div>
+
+    <h3>🧪 Solution Chemistry</h3>
+
+    <p>
+        <strong>Molarity:</strong><br>
+        M = moles ÷ volume (L)
+    </p>
+
+    <p>
+        <strong>Molality:</strong><br>
+        m = moles of solute ÷ mass of solvent (kg)
+    </p>
+
+    <p>
+        <strong>Normality:</strong><br>
+        N = equivalents ÷ volume (L)
+    </p>
+
+    <p>
+        <strong>Dilution:</strong><br>
+        C₁V₁ = C₂V₂
+    </p>
+
+    <h3>⚗️ Acids, Bases & Buffers</h3>
+
+    <p>
+        <strong>pH:</strong><br>
+        pH = −log₁₀[H⁺]
+    </p>
+
+    <p>
+        <strong>pOH:</strong><br>
+        pOH = −log₁₀[OH⁻]
+    </p>
+
+    <p>
+        <strong>Henderson–Hasselbalch:</strong><br>
+        pH = pKa + log₁₀([A⁻]/[HA])
+    </p>
+
+    <h3>🔬 Spectrophotometry</h3>
+
+    <p>
+        <strong>Beer–Lambert Law:</strong><br>
+        A = εcl
+    </p>
+
+    <h3>🧬 Enzymology</h3>
+
+    <p>
+        <strong>Enzyme Activity:</strong><br>
+        Activity = amount of product ÷ time
+    </p>
+
+    <p>
+        <strong>Specific Activity:</strong><br>
+        Specific Activity = enzyme activity ÷ protein amount
+    </p>
+
+    <p>
+        <strong>Michaelis–Menten:</strong><br>
+        v = (Vmax[S]) ÷ (Km + [S])
+    </p>
+
+    <h3>🧬 Molecular Biology</h3>
+
+    <p>
+        <strong>DNA GC Content:</strong><br>
+        GC% = (G + C) ÷ total bases × 100
+    </p>
+
+    <p>
+        <strong>DNA Complement:</strong><br>
+        A ↔ T &nbsp;&nbsp; G ↔ C
+    </p>
+
+    <h3>🧪 Concentration</h3>
+
+    <p>
+        <strong>Percentage concentration:</strong><br>
+        % = (amount of solute ÷ total solution) × 100
+    </p>
+
+</div>
+
+
+<!-- =========================
+     SEARCH TOOL
+========================= -->
+
+<div class="calculator" id="searchTool" style="display:none;">
+
+    <h2>🔎 Biochemistry Search</h2>
+
+    <div class="formula">
+        Search Biochemistry topics, formulas and concepts
+    </div>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Example: glycolysis, enzyme, DNA..."
+        onkeyup="searchBiochemistry()">
+
+    <div class="result" id="searchResult">
+        Type something to search.
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PERCENTAGE
+========================= -->
+
+<div class="calculator" id="percentage" style="display:none;">
+
+    <h2>Percentage Concentration</h2>
+
+    <div class="formula">
+
+        Choose type:<br>
+
+        % w/v = (g ÷ mL) × 100<br>
+
+        % w/w = (g ÷ g) × 100<br>
+
+        % v/v = (mL ÷ mL) × 100
+
+    </div>
+
+    <label>Concentration Type:</label>
+
+    <select id="percentageType">
+
+        <option value="wv">
+            % w/v (g/100mL)
+        </option>
+
+        <option value="ww">
+            % w/w (g/100g)
+        </option>
+
+        <option value="vv">
+            % v/v (mL/100mL)
+        </option>
+
+    </select>
+
+    <label>Amount of solute:</label>
+
+    <input
+        type="number"
+        id="soluteAmount"
+        placeholder="Enter solute amount"
+        step="any">
+
+    <label>Total solution amount:</label>
+
+    <input
+        type="number"
+        id="solutionAmount"
+        placeholder="Enter solution amount"
+        step="any">
+
+    <button onclick="calculatePercentage()">
+        Calculate %
+    </button>
+
+    <div class="result" id="percentageResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SERIAL DILUTION
+========================= -->
+
+<div class="calculator" id="serialDilution" style="display:none;">
+
+    <h2>Serial Dilution Calculator</h2>
+
+    <div class="formula">
+        Final Concentration =
+        Initial Concentration ÷ (Dilution Factorⁿ)
+    </div>
+
+    <label>Initial Concentration:</label>
+
+    <input
+        type="number"
+        id="initialConcentration"
+        placeholder="Enter initial concentration"
+        step="any">
+
+    <label>
+        Dilution Factor
+        (e.g. 10 for 1:10):
+    </label>
+
+    <input
+        type="number"
+        id="dilutionFactor"
+        placeholder="Enter dilution factor"
+        step="any">
+
+    <label>Number of Dilution Steps:</label>
+
+    <input
+        type="number"
+        id="dilutionSteps"
+        placeholder="Enter number of steps"
+        step="1">
+
+    <button onclick="calculateSerialDilution()">
+        Calculate
+    </button>
+
+    <div class="result" id="serialResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     RCF
+========================= -->
+
+<div class="calculator" id="rcf" style="display:none;">
+
+    <h2>RCF (Centrifugation) Calculator</h2>
+
+    <div class="formula">
+
+        Formula:<br>
+
+        RCF = 1.118 × 10⁻⁵ × r × RPM²
+
+    </div>
+
+    <label>Rotor Radius (cm):</label>
+
+    <input
+        type="number"
+        id="rotorRadius"
+        placeholder="Enter radius in cm"
+        step="any">
+
+    <label>Speed (RPM):</label>
+
+    <input
+        type="number"
+        id="rpm"
+        placeholder="Enter RPM"
+        step="any">
+
+    <button onclick="calculateRCF()">
+        Calculate RCF
+    </button>
+
+    <div class="result" id="rcfResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DNA/RNA CONCENTRATION
+========================= -->
+
+<div class="calculator" id="nucleicAcid" style="display:none;">
+
+    <h2>DNA/RNA Concentration Calculator</h2>
+
+    <div class="formula">
+
+        DNA = A260 × Dilution Factor × 50 µg/mL<br>
+
+        RNA = A260 × Dilution Factor × 40 µg/mL
+
+    </div>
+
+    <label>Sample Type:</label>
+
+    <select id="nucleicType">
+
+        <option value="dna">DNA</option>
+
+        <option value="rna">RNA</option>
+
+    </select>
+
+    <label>
+        Absorbance at 260 nm (A260)
+    </label>
+
+    <p style="font-size:14px;">
+        A260 is the absorbance reading measured at 260 nm.
+    </p>
+
+    <input
+        type="number"
+        id="a260"
+        placeholder="Enter A260"
+        step="any">
+
+    <label>Dilution Factor:</label>
+
+    <input
+        type="number"
+        id="dilutionFactorNA"
+        placeholder="Enter dilution factor"
+        step="any">
+
+    <button onclick="calculateNucleicAcid()">
+        Calculate Concentration
+    </button>
+
+    <div class="result" id="nucleicResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PROTEIN MW
+========================= -->
+
+<div class="calculator" id="proteinMW" style="display:none;">
+
+    <h2>🧬 Protein Molecular Weight</h2>
+
+    <div class="formula">
+        Approximation:
+        Protein MW = Number of amino acids × 110 Da
+    </div>
+
+    <label>Number of Amino Acids:</label>
+
+    <input
+        type="number"
+        id="aminoAcidCount"
+        placeholder="Example: 500"
+        step="1">
+
+    <button onclick="calculateProteinMW()">
+        Calculate Molecular Weight
+    </button>
+
+    <div class="result" id="proteinMWResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     AMINO ACID
+========================= -->
+
+<div class="calculator" id="aminoAcid" style="display:none;">
+
+    <h2>🧬 Amino Acid Calculator</h2>
+
+    <div class="formula">
+        Calculate the molecular weight of an amino acid
+    </div>
+
+    <label>Select Amino Acid:</label>
+
+    <select id="aminoAcidSelect">
+
+        <option value="89.09">Alanine (Ala, A)</option>
+        <option value="174.20">Arginine (Arg, R)</option>
+        <option value="132.12">Asparagine (Asn, N)</option>
+        <option value="133.10">Aspartic acid (Asp, D)</option>
+        <option value="121.16">Cysteine (Cys, C)</option>
+        <option value="165.19">Glutamine (Gln, Q)</option>
+        <option value="147.13">Glutamic acid (Glu, E)</option>
+        <option value="75.07">Glycine (Gly, G)</option>
+        <option value="155.16">Histidine (His, H)</option>
+        <option value="131.17">Isoleucine (Ile, I)</option>
+        <option value="131.17">Leucine (Leu, L)</option>
+        <option value="149.21">Lysine (Lys, K)</option>
+        <option value="165.19">Methionine (Met, M)</option>
+        <option value="115.13">Phenylalanine (Phe, F)</option>
+        <option value="146.19">Proline (Pro, P)</option>
+        <option value="105.09">Serine (Ser, S)</option>
+        <option value="119.12">Threonine (Thr, T)</option>
+        <option value="204.23">Tryptophan (Trp, W)</option>
+        <option value="181.19">Tyrosine (Tyr, Y)</option>
+        <option value="117.15">Valine (Val, V)</option>
+
+    </select>
+
+    <button onclick="calculateAminoAcid()">
+        Calculate Molecular Weight
+    </button>
+
+    <div class="result" id="aminoAcidResult">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ABSORBANCE → CONCENTRATION
+========================= -->
+
+<div
+    class="calculator"
+    id="absorbanceConcentration"
+    style="display:none;">
+
+    <h2>🔬 Absorbance → Concentration</h2>
+
+    <div class="formula">
+        Formula: C = A ÷ (ε × l)
+    </div>
+
+    <label>Absorbance (A):</label>
+
+    <input
+        type="number"
+        id="absorbanceAC"
+        placeholder="Enter absorbance"
+        step="any">
+
+    <label>
+        Molar Absorptivity ε
+        (L·mol⁻¹·cm⁻¹):
+    </label>
+
+    <input
+        type="number"
+        id="epsilonAC"
+        placeholder="Enter ε"
+        step="any">
+
+    <label>Path Length (cm):</label>
+
+    <input
+        type="number"
+        id="pathAC"
+        placeholder="Example: 1"
+        step="any">
+
+    <button onclick="calculateAbsorbanceConcentration()">
+        Calculate Concentration
+    </button>
+
+    <div
+        class="result"
+        id="absorbanceConcentrationResult">
+
+        Result will appear here
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     A260/A280
+========================= -->
+
+<div
+    class="calculator"
+    id="a260a280"
+    style="display:none;">
+
+    <h2>🔬 A260/A280 Purity Ratio</h2>
+
+    <div class="formula">
+        Formula:
+        A260/A280 =
+        Absorbance at 260 nm ÷
+        Absorbance at 280 nm
+    </div>
+
+    <label>
+        Absorbance at 260 nm (A260):
+    </label>
+
+    <input
+        type="number"
+        id="purityA260"
+        placeholder="Enter A260"
+        step="any">
+
+    <label>
+        Absorbance at 280 nm (A280):
+    </label>
+
+    <input
+        type="number"
+        id="purityA280"
+        placeholder="Enter A280"
+        step="any">
+
+    <button onclick="calculateA260A280()">
+        Calculate Purity Ratio
+    </button>
+
+    <div class="result" id="a260a280Result">
+        Result will appear here
+    </div>
+
+</div>
+
+
+<!-- =========================
+     DNA MELTING TEMPERATURE
+========================= -->
+
+<div
+    class="calculator"
+    id="tmCalculator"
+    style="display:none;">
+
+    <h2>🧬 DNA Melting Temperature (Tm)</h2>
+
+    <div class="formula">
+        Formula:
+        Tm = 2(A + T) + 4(G + C)
+    </div>
+
+    <label>DNA Sequence:</label>
+
+    <input
+        type="text"
+        id="tmSequence"
+        placeholder="Example: ATGCGCTA">
+
+    <button onclick="calculateTm()">
+        Calculate Tm
+    </button>
+
+    <div class="result" id="tmResult">
+        Result will appear here
+    </div>
+</div>
+      
+     <!-- =========================================
+     BIOCHEMISTRY TOPICS
+     ========================================= -->
+
+<div class="topic-container">
+
+
+    <!-- BIOMOLECULES -->
+
+    <div class="calculator" id="biomolecules" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧬 Biomolecules</h2>
+
+            <div class="topic-definition">
+                Biomolecules are organic molecules produced by living organisms
+                that are essential for structure, energy, regulation and life processes.
+            </div>
+
+            <h3>Major Classes</h3>
+
+            <ul>
+                <li>Carbohydrates</li>
+                <li>Proteins</li>
+                <li>Lipids</li>
+                <li>Nucleic acids</li>
+                <li>Vitamins and other biological molecules</li>
+            </ul>
+
+            <h3>Functions</h3>
+
+            <ul>
+                <li>Energy production</li>
+                <li>Cellular structure</li>
+                <li>Enzyme catalysis</li>
+                <li>Genetic information storage</li>
+                <li>Cellular signaling</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- CARBOHYDRATES -->
+
+    <div class="calculator" id="carbohydrates" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🍞 Carbohydrate Biochemistry</h2>
+
+            <div class="topic-definition">
+                Carbohydrates are biomolecules composed mainly of carbon,
+                hydrogen and oxygen and are important sources of cellular energy.
+            </div>
+
+            <h3>Classification</h3>
+
+            <ul>
+                <li>Monosaccharides</li>
+                <li>Disaccharides</li>
+                <li>Oligosaccharides</li>
+                <li>Polysaccharides</li>
+            </ul>
+
+            <h3>Examples</h3>
+
+            <ul>
+                <li>Glucose</li>
+                <li>Fructose</li>
+                <li>Sucrose</li>
+                <li>Lactose</li>
+                <li>Glycogen</li>
+                <li>Starch</li>
+                <li>Cellulose</li>
+            </ul>
+
+            <h3>Important Pathways</h3>
+
+            <ul>
+                <li>Glycolysis</li>
+                <li>Gluconeogenesis</li>
+                <li>Glycogenesis</li>
+                <li>Glycogenolysis</li>
+                <li>Pentose phosphate pathway</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROTEINS -->
+
+    <div class="calculator" id="proteins" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🥩 Protein Biochemistry</h2>
+
+            <div class="topic-definition">
+                Proteins are polymers of amino acids linked together by peptide bonds.
+                They perform structural, catalytic, transport and regulatory functions.
+            </div>
+
+            <h3>Levels of Protein Structure</h3>
+
+            <ul>
+                <li>Primary structure</li>
+                <li>Secondary structure</li>
+                <li>Tertiary structure</li>
+                <li>Quaternary structure</li>
+            </ul>
+
+            <h3>Functions</h3>
+
+            <ul>
+                <li>Enzymatic catalysis</li>
+                <li>Transport</li>
+                <li>Structural support</li>
+                <li>Defense</li>
+                <li>Hormonal regulation</li>
+            </ul>
+
+            <h3>Important Concepts</h3>
+
+            <ul>
+                <li>Amino acids</li>
+                <li>Peptide bonds</li>
+                <li>Denaturation</li>
+                <li>Protein folding</li>
+                <li>Isoelectric point</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- LIPIDS -->
+
+    <div class="calculator" id="lipids" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧈 Lipid Biochemistry</h2>
+
+            <div class="topic-definition">
+                Lipids are hydrophobic or amphipathic biological molecules involved
+                in energy storage, membrane structure and signaling.
+            </div>
+
+            <h3>Major Lipids</h3>
+
+            <ul>
+                <li>Fatty acids</li>
+                <li>Triglycerides</li>
+                <li>Phospholipids</li>
+                <li>Steroids</li>
+                <li>Cholesterol</li>
+            </ul>
+
+            <h3>Important Pathways</h3>
+
+            <ul>
+                <li>Fatty acid oxidation</li>
+                <li>Beta oxidation</li>
+                <li>Fatty acid synthesis</li>
+                <li>Ketogenesis</li>
+                <li>Cholesterol metabolism</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- NUCLEIC ACIDS -->
+
+    <div class="calculator" id="nucleicAcids" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧬 Nucleic Acids</h2>
+
+            <div class="topic-definition">
+                Nucleic acids are polymers of nucleotides that store, transmit
+                and express genetic information.
+            </div>
+
+            <h3>Two Major Types</h3>
+
+            <ul>
+                <li>DNA — Deoxyribonucleic acid</li>
+                <li>RNA — Ribonucleic acid</li>
+            </ul>
+
+            <h3>DNA Functions</h3>
+
+            <ul>
+                <li>Stores genetic information</li>
+                <li>Replication</li>
+                <li>Transmission of hereditary information</li>
+            </ul>
+
+            <h3>RNA Types</h3>
+
+            <ul>
+                <li>mRNA</li>
+                <li>tRNA</li>
+                <li>rRNA</li>
+                <li>miRNA</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- BIOENERGETICS -->
+
+    <div class="calculator" id="bioenergetics" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>⚡ Bioenergetics</h2>
+
+            <div class="topic-definition">
+                Bioenergetics is the study of energy transformations in living systems.
+            </div>
+
+            <h3>Important Concepts</h3>
+
+            <ul>
+                <li>ATP</li>
+                <li>ADP</li>
+                <li>Energy coupling</li>
+                <li>Oxidation-reduction reactions</li>
+                <li>Electron transport</li>
+            </ul>
+
+            <div class="topic-formula">
+                ATP is the major energy currency of the cell.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ENZYMOLOGY -->
+
+    <div class="calculator" id="enzymology" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧪 Enzymology</h2>
+
+            <div class="topic-definition">
+                Enzymology is the study of enzymes, their mechanisms,
+                kinetics, regulation and biological functions.
+            </div>
+
+            <h3>Important Concepts</h3>
+
+            <ul>
+                <li>Enzyme</li>
+                <li>Substrate</li>
+                <li>Active site</li>
+                <li>Enzyme-substrate complex</li>
+                <li>Enzyme inhibition</li>
+                <li>Km</li>
+                <li>Vmax</li>
+            </ul>
+
+            <div class="topic-formula">
+                Michaelis-Menten equation:<br>
+                v = Vmax[S] ÷ (Km + [S])
+            </div>
+
+            <h3>Types of Inhibition</h3>
+
+            <ul>
+                <li>Competitive inhibition</li>
+                <li>Noncompetitive inhibition</li>
+                <li>Uncompetitive inhibition</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- METABOLISM -->
+
+    <div class="calculator" id="metabolism" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🔥 Metabolism</h2>
+
+            <div class="topic-definition">
+                Metabolism is the collection of chemical reactions that occur
+                within cells to maintain life.
+            </div>
+
+            <h3>Two Major Components</h3>
+
+            <ul>
+                <li>Anabolism — building molecules</li>
+                <li>Catabolism — breaking molecules down</li>
+            </ul>
+
+            <h3>Major Metabolic Pathways</h3>
+
+            <ul>
+                <li>Glycolysis</li>
+                <li>Krebs cycle</li>
+                <li>Electron transport chain</li>
+                <li>Gluconeogenesis</li>
+                <li>Beta oxidation</li>
+                <li>Urea cycle</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- CLINICAL BIOCHEMISTRY -->
+
+    <div class="calculator" id="clinical" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🩸 Clinical Biochemistry</h2>
+
+            <div class="topic-definition">
+                Clinical biochemistry applies biochemical principles and laboratory
+                tests to understand health, disease and patient conditions.
+            </div>
+
+            <h3>Common Laboratory Tests</h3>
+
+            <ul>
+                <li>Blood glucose</li>
+                <li>Cholesterol</li>
+                <li>Triglycerides</li>
+                <li>Urea</li>
+                <li>Creatinine</li>
+                <li>ALT</li>
+                <li>AST</li>
+                <li>Total protein</li>
+                <li>Albumin</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- MOLECULAR BIOLOGY -->
+
+    <div class="calculator" id="molecularBiology" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧬 Molecular Biology</h2>
+
+            <div class="topic-definition">
+                Molecular biology studies biological processes at the molecular level,
+                especially DNA, RNA and proteins.
+            </div>
+
+            <h3>Central Dogma</h3>
+
+            <div class="topic-formula">
+                DNA → RNA → Protein
+            </div>
+
+            <h3>Major Processes</h3>
+
+            <ul>
+                <li>DNA replication</li>
+                <li>Transcription</li>
+                <li>Translation</li>
+                <li>Gene regulation</li>
+                <li>Mutation</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- IMMUNOCHEMISTRY -->
+
+    <div class="calculator" id="immunochemistry" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🛡️ Immunochemistry</h2>
+
+            <div class="topic-definition">
+                Immunochemistry studies the chemical and molecular basis of
+                immune reactions, especially antigen-antibody interactions.
+            </div>
+
+            <h3>Important Terms</h3>
+
+            <ul>
+                <li>Antigen</li>
+                <li>Antibody</li>
+                <li>Antigen-antibody reaction</li>
+                <li>Immunoglobulins</li>
+                <li>Complement system</li>
+            </ul>
+
+            <h3>Applications</h3>
+
+            <ul>
+                <li>ELISA</li>
+                <li>Immunoassays</li>
+                <li>Diagnostic testing</li>
+                <li>Research</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- HORMONES -->
+
+    <div class="calculator" id="hormones" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧪 Hormones & Signaling</h2>
+
+            <div class="topic-definition">
+                Hormones are chemical messengers that regulate physiological
+                processes throughout the body.
+            </div>
+
+            <h3>Examples</h3>
+
+            <ul>
+                <li>Insulin</li>
+                <li>Glucagon</li>
+                <li>Adrenaline</li>
+                <li>Thyroxine</li>
+                <li>Cortisol</li>
+                <li>Growth hormone</li>
+            </ul>
+
+            <h3>Cell Signaling</h3>
+
+            <ul>
+                <li>Receptors</li>
+                <li>Second messengers</li>
+                <li>Signal transduction</li>
+                <li>Protein phosphorylation</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- VITAMINS -->
+
+    <div class="calculator" id="vitamins" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>💊 Vitamins & Minerals</h2>
+
+            <div class="topic-definition">
+                Vitamins and minerals are essential micronutrients required
+                for normal metabolism and physiological functions.
+            </div>
+
+            <h3>Fat-Soluble Vitamins</h3>
+
+            <ul>
+                <li>Vitamin A</li>
+                <li>Vitamin D</li>
+                <li>Vitamin E</li>
+                <li>Vitamin K</li>
+            </ul>
+
+            <h3>Water-Soluble Vitamins</h3>
+
+            <ul>
+                <li>Vitamin B group</li>
+                <li>Vitamin C</li>
+            </ul>
+
+            <h3>Important Minerals</h3>
+
+            <ul>
+                <li>Iron</li>
+                <li>Calcium</li>
+                <li>Magnesium</li>
+                <li>Zinc</li>
+                <li>Sodium</li>
+                <li>Potassium</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- MEMBRANE BIOCHEMISTRY -->
+
+    <div class="calculator" id="membranes" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧫 Membrane Biochemistry</h2>
+
+            <div class="topic-definition">
+                Membrane biochemistry studies the structure, composition and
+                functions of biological membranes.
+            </div>
+
+            <h3>Major Components</h3>
+
+            <ul>
+                <li>Phospholipids</li>
+                <li>Cholesterol</li>
+                <li>Membrane proteins</li>
+                <li>Carbohydrates</li>
+            </ul>
+
+            <h3>Transport Mechanisms</h3>
+
+            <ul>
+                <li>Simple diffusion</li>
+                <li>Facilitated diffusion</li>
+                <li>Active transport</li>
+                <li>Endocytosis</li>
+                <li>Exocytosis</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- GENETICS -->
+
+    <div class="calculator" id="genetics" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🧬 Genetics</h2>
+
+            <div class="topic-definition">
+                Genetics is the study of genes, heredity and variation
+                in living organisms.
+            </div>
+
+            <h3>Important Concepts</h3>
+
+            <ul>
+                <li>Gene</li>
+                <li>Allele</li>
+                <li>Chromosome</li>
+                <li>Genotype</li>
+                <li>Phenotype</li>
+                <li>Mutation</li>
+                <li>Inheritance</li>
+            </ul>
+
+            <h3>Mendelian Genetics</h3>
+
+            <ul>
+                <li>Law of segregation</li>
+                <li>Law of independent assortment</li>
+                <li>Dominant traits</li>
+                <li>Recessive traits</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- BIOTECHNOLOGY -->
+
+    <div class="calculator" id="biotechnology" style="display: none;">
+
+        <div class="topic-card">
+
+            <h2>🔬 Biotechnology</h2>
+
+            <div class="topic-definition">
+                Biotechnology uses biological systems, organisms or molecules
+                to develop useful products and technologies.
+            </div>
+
+            <h3>Major Areas</h3>
+
+            <ul>
+                <li>Genetic engineering</li>
+                <li>Recombinant DNA technology</li>
+                <li>PCR</li>
+                <li>DNA sequencing</li>
+                <li>Cell culture</li>
+                <li>Fermentation technology</li>
+                <li>Biopharmaceuticals</li>
+            </ul>
+
+            <h3>Applications</h3>
+
+            <ul>
+                <li>Medicine</li>
+                <li>Agriculture</li>
+                <li>Food production</li>
+                <li>Environmental biotechnology</li>
+                <li>Research</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+      
+     <!-- =================================
+     BIOCHEMISTRY QUIZ SECTION
+     ================================= -->
+
+<div id="quizSection" class="topic-section" style="display:none;">
+
+    <div class="topic-card">
+
+        <h2>📝 Biochemistry Quiz</h2>
+
+        <h3 id="questionNumber"></h3>
+
+        <p id="quizQuestion"></p>
+
+
+        <div id="quizOptions"></div>
+
+
+        <button onclick="nextQuestion()">
+            Next Question
+        </button>
+
+
+        <h3 id="quizScore"></h3>
+
+    </div>
+
+</div>
+     <!-- HOME SECTION -->
+<section id="home">
+    <h1>Biochemistry Laboratory Calculator</h1>
+    <p>
+        A powerful online tool designed for Biochemistry students,
+        researchers, and laboratory professionals to perform important
+        biochemical calculations quickly and accurately.
+    </p>
+</section>
+
+
+<!-- ABOUT SECTION -->
+<section id="about">
+    <h2>About This Project</h2>
+    <p>
+        Biochemistry Laboratory Calculator provides useful calculators
+        including molarity, dilution, pH, buffer preparation,
+        Beer-Lambert law, enzyme kinetics, DNA calculations and many more.
+    </p>
+
+    <p>
+        Developed to support students and laboratory scientists in learning
+        and performing biochemical calculations easily.
+    </p>
+</section>
+
+
+<!-- CONTACT SECTION -->
+<section id="contact">
+    <h2>Contact</h2>
+
+    <p>
+        For questions, suggestions, or feedback:
+    </p>
+       Email: <a href="mailto:abdullahisanigarba26@gmail.com">
+abdullahisanigarba26@gmail.com
+</a>     
+    <p>
+    </p>
+</section>
+
+
+<!-- PRIVACY POLICY SECTION -->
+<section id="privacy">
+    <h2>Privacy Policy</h2>
+
+    <p>
+        This website respects user privacy. We do not collect personal
+        information without permission. Third-party services such as
+        advertisements may use cookies to improve user experience.
+    </p>
+</section>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+
+<script>
+      
+      
+      
+       
+
+
+/* =========================
+   MENU
+========================= */
+
+function toggleMenu() {
+
+    const menu =
+        document.getElementById("sideMenu");
+
+    const overlay =
+        document.getElementById("menuOverlay");
+
+    menu.classList.toggle("open");
+
+    overlay.classList.toggle("open");
+}
+
+
+function closeMenu() {
+
+    const menu =
+        document.getElementById("sideMenu");
+
+    const overlay =
+        document.getElementById("menuOverlay");
+
+    menu.classList.remove("open");
+
+    overlay.classList.remove("open");
+}
+
+
+function showCalculator(calculatorId) {
+
+    const calculators =
+        document.querySelectorAll(".calculator");
+
+    calculators.forEach(function(calculator) {
+
+        calculator.style.display = "none";
+
+    });
+
+
+    const selected =
+        document.getElementById(calculatorId);
+
+    if (selected) {
+
+        selected.style.display = "block";
+
+    }
+
+
+    closeMenu();
+
+}
+
+
+/* =========================
+   MOLARITY
+========================= */
+
+function calculateMolarity() {
+
+    let moles =
+        parseFloat(
+            document.getElementById("moles").value
+        );
+
+    let volume =
+        parseFloat(
+            document.getElementById("volume").value
+        );
+
+
+    if (isNaN(moles) || isNaN(volume)) {
+
+        document.getElementById("result").innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (moles < 0 || volume <= 0) {
+
+        document.getElementById("result").innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let molarity =
+        moles / volume;
+
+
+    document.getElementById("result").innerHTML =
+        "Molarity = " +
+        molarity.toFixed(3) +
+        " mol/L";
+
+}
+
+
+/* =========================
+   DILUTION
+========================= */
+
+function calculateDilution() {
+
+    let c1 =
+        parseFloat(
+            document.getElementById("c1").value
+        );
+
+    let c2 =
+        parseFloat(
+            document.getElementById("c2").value
+        );
+
+    let v2 =
+        parseFloat(
+            document.getElementById("v2").value
+        );
+
+
+    if (isNaN(c1) ||
+        isNaN(c2) ||
+        isNaN(v2)) {
+
+        document.getElementById("dilutionResult").innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (c1 <= 0 ||
+        c2 <= 0 ||
+        v2 <= 0) {
+
+        document.getElementById("dilutionResult").innerHTML =
+            "All values must be greater than zero.";
+
+        return;
+    }
+
+
+    let v1 =
+        (c2 * v2) / c1;
+
+
+    document.getElementById("dilutionResult").innerHTML =
+        "V₁ = " +
+        v1.toFixed(3) +
+        " L";
+
+}
+
+
+/* =========================
+   MOLECULAR WEIGHT
+========================= */
+
+function calculateMolecularWeight() {
+
+    let formula =
+        document.getElementById(
+            "molecularFormula"
+        ).value.trim();
+
+
+    if (formula === "") {
+
+        document.getElementById(
+            "molecularResult"
+        ).innerHTML =
+            "Please enter a molecular formula.";
+
+        return;
+    }
+
+
+    let weights = {
+
+        H: 1.008,
+        C: 12.011,
+        N: 14.007,
+        O: 15.999,
+        Na: 22.990,
+        Cl: 35.45,
+        S: 32.06,
+        P: 30.974,
+        Ca: 40.078,
+        K: 39.098
+
+    };
+
+
+    let total = 0;
+
+    let pattern =
+        /([A-Z][a-z]?)(\d*)/g;
+
+    let match;
+
+    let position = 0;
+
+
+    while ((match = pattern.exec(formula)) !== null) {
+
+        if (match.index !== position) {
+
+            document.getElementById(
+                "molecularResult"
+            ).innerHTML =
+                "Invalid molecular formula.";
+
+            return;
+        }
+
+
+        position =
+            pattern.lastIndex;
+
+
+        let element =
+            match[1];
+
+        let number =
+            match[2] === ""
+                ? 1
+                : parseInt(match[2]);
+
+
+        if (weights[element] === undefined) {
+
+            document.getElementById(
+                "molecularResult"
+            ).innerHTML =
+                "Unknown element: " +
+                element;
+
+            return;
+        }
+
+
+        total +=
+            weights[element] * number;
+
+    }
+
+
+    if (position !== formula.length ||
+        total === 0) {
+
+        document.getElementById(
+            "molecularResult"
+        ).innerHTML =
+            "Please enter a valid molecular formula.";
+
+        return;
+    }
+
+
+    document.getElementById(
+        "molecularResult"
+    ).innerHTML =
+        "Molecular Weight = " +
+        total.toFixed(3) +
+        " g/mol";
+
+}
+
+
+/* =========================
+   MOLALITY
+========================= */
+
+function calculateMolality() {
+
+    let moles =
+        parseFloat(
+            document.getElementById(
+                "molalityMoles"
+            ).value
+        );
+
+    let solventMass =
+        parseFloat(
+            document.getElementById(
+                "solventMass"
+            ).value
+        );
+
+
+    if (isNaN(moles) ||
+        isNaN(solventMass)) {
+
+        document.getElementById(
+            "molalityResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (moles < 0 ||
+        solventMass <= 0) {
+
+        document.getElementById(
+            "molalityResult"
+        ).innerHTML =
+            "Enter valid values.";
+
+        return;
+    }
+
+
+    let molality =
+        moles / solventMass;
+
+
+    document.getElementById(
+        "molalityResult"
+    ).innerHTML =
+        "Molality = " +
+        molality.toFixed(3) +
+        " mol/kg";
+
+}
+
+
+/* =========================
+   NORMALITY
+========================= */
+
+function calculateNormality() {
+
+    let equivalents =
+        parseFloat(
+            document.getElementById(
+                "equivalents"
+            ).value
+        );
+
+    let volume =
+        parseFloat(
+            document.getElementById(
+                "normalityVolume"
+            ).value
+        );
+
+
+    if (isNaN(equivalents) ||
+        isNaN(volume)) {
+
+        document.getElementById(
+            "normalityResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (equivalents < 0 ||
+        volume <= 0) {
+
+        document.getElementById(
+            "normalityResult"
+        ).innerHTML =
+            "Enter valid values.";
+
+        return;
+    }
+
+
+    let normality =
+        equivalents / volume;
+
+
+    document.getElementById(
+        "normalityResult"
+    ).innerHTML =
+        "Normality = " +
+        normality.toFixed(3) +
+        " N";
+
+}
+
+
+/* =========================
+   pH
+========================= */
+
+function calculatePH() {
+
+    let hydrogen =
+        parseFloat(
+            document.getElementById(
+                "hydrogen"
+            ).value
+        );
+
+
+    if (isNaN(hydrogen) ||
+        hydrogen <= 0) {
+
+        document.getElementById(
+            "phResult"
+        ).innerHTML =
+            "Please enter a valid H⁺ concentration.";
+
+        return;
+    }
+
+
+    let pH =
+        -Math.log10(hydrogen);
+
+
+    document.getElementById(
+        "phResult"
+    ).innerHTML =
+        "pH = " +
+        pH.toFixed(2);
+
+}
+
+
+/* =========================
+   pOH
+========================= */
+
+function calculatePOH() {
+
+    let hydroxide =
+        parseFloat(
+            document.getElementById(
+                "hydroxide"
+            ).value
+        );
+
+
+    if (isNaN(hydroxide) ||
+        hydroxide <= 0) {
+
+        document.getElementById(
+            "pohResult"
+        ).innerHTML =
+            "Please enter a valid OH⁻ concentration.";
+
+        return;
+    }
+
+
+    let pOH =
+        -Math.log10(hydroxide);
+
+
+    document.getElementById(
+        "pohResult"
+    ).innerHTML =
+        "pOH = " +
+        pOH.toFixed(2);
+
+}
+
+
+/* =========================
+   BUFFER
+========================= */
+
+function calculateBuffer() {
+
+    let pka =
+        parseFloat(
+            document.getElementById(
+                "pka"
+            ).value
+        );
+
+    let base =
+        parseFloat(
+            document.getElementById(
+                "baseConcentration"
+            ).value
+        );
+
+    let acid =
+        parseFloat(
+            document.getElementById(
+                "acidConcentration"
+            ).value
+        );
+
+
+    if (isNaN(pka) ||
+        isNaN(base) ||
+        isNaN(acid)) {
+
+        document.getElementById(
+            "bufferResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (base <= 0 ||
+        acid <= 0) {
+
+        document.getElementById(
+            "bufferResult"
+        ).innerHTML =
+            "Concentrations must be greater than zero.";
+
+        return;
+    }
+
+
+    let pH =
+        pka + Math.log10(base / acid);
+
+
+    document.getElementById(
+        "bufferResult"
+    ).innerHTML =
+        "pH = " +
+        pH.toFixed(2);
+
+}
+
+
+/* =========================
+   BEER-LAMBERT
+========================= */
+
+function calculateBeer() {
+
+    let absorbance =
+        parseFloat(
+            document.getElementById(
+                "absorbance"
+            ).value
+        );
+
+    let epsilon =
+        parseFloat(
+            document.getElementById(
+                "molarAbsorptivity"
+            ).value
+        );
+
+    let concentration =
+        parseFloat(
+            document.getElementById(
+                "concentration"
+            ).value
+        );
+
+    let pathLength =
+        parseFloat(
+            document.getElementById(
+                "pathLength"
+            ).value
+        );
+
+
+    if (isNaN(absorbance) ||
+        isNaN(epsilon) ||
+        isNaN(concentration) ||
+        isNaN(pathLength)) {
+
+        document.getElementById(
+            "beerResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (absorbance < 0 ||
+        epsilon <= 0 ||
+        concentration <= 0 ||
+        pathLength <= 0) {
+
+        document.getElementById(
+            "beerResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let calculatedAbsorbance =
+        epsilon *
+        concentration *
+        pathLength;
+
+
+    document.getElementById(
+        "beerResult"
+    ).innerHTML =
+        "Calculated Absorbance = " +
+        calculatedAbsorbance.toFixed(3);
+
+}
+
+
+/* =========================
+   ENZYME ACTIVITY
+========================= */
+
+function calculateEnzymeActivity() {
+
+    let product =
+        parseFloat(
+            document.getElementById(
+                "productAmount"
+            ).value
+        );
+
+    let time =
+        parseFloat(
+            document.getElementById(
+                "reactionTime"
+            ).value
+        );
+
+
+    if (isNaN(product) ||
+        isNaN(time)) {
+
+        document.getElementById(
+            "enzymeResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (product < 0 ||
+        time <= 0) {
+
+        document.getElementById(
+            "enzymeResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let activity =
+        product / time;
+
+
+    document.getElementById(
+        "enzymeResult"
+    ).innerHTML =
+        "Enzyme Activity = " +
+        activity.toFixed(3) +
+        " µmol/min";
+
+}
+
+
+/* =========================
+   SPECIFIC ACTIVITY
+========================= */
+
+function calculateSpecificActivity() {
+
+    let activity =
+        parseFloat(
+            document.getElementById(
+                "specificEnzymeActivity"
+            ).value
+        );
+
+    let protein =
+        parseFloat(
+            document.getElementById(
+                "proteinAmount"
+            ).value
+        );
+
+
+    if (isNaN(activity) ||
+        isNaN(protein)) {
+
+        document.getElementById(
+            "specificActivityResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (activity < 0 ||
+        protein <= 0) {
+
+        document.getElementById(
+            "specificActivityResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let specificActivity =
+        activity / protein;
+
+
+    document.getElementById(
+        "specificActivityResult"
+    ).innerHTML =
+        "Specific Activity = " +
+        specificActivity.toFixed(3) +
+        " µmol/min/mg";
+
+}
+
+
+/* =========================
+   MICHAELIS-MENTEN
+========================= */
+
+function calculateMichaelis() {
+
+    let vmax =
+        parseFloat(
+            document.getElementById(
+                "vmax"
+            ).value
+        );
+
+    let km =
+        parseFloat(
+            document.getElementById(
+                "km"
+            ).value
+        );
+
+    let substrate =
+        parseFloat(
+            document.getElementById(
+                "substrate"
+            ).value
+        );
+
+
+    if (isNaN(vmax) ||
+        isNaN(km) ||
+        isNaN(substrate)) {
+
+        document.getElementById(
+            "michaelisResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (vmax <= 0 ||
+        km <= 0 ||
+        substrate < 0) {
+
+        document.getElementById(
+            "michaelisResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let velocity =
+        (vmax * substrate) /
+        (km + substrate);
+
+
+    document.getElementById(
+        "michaelisResult"
+    ).innerHTML =
+        "Reaction Velocity (v) = " +
+        velocity.toFixed(3) +
+        " µmol/min";
+
+}
+
+
+/* =========================
+   PROTEIN CONCENTRATION
+========================= */
+
+function calculateProtein() {
+
+    let absorbance =
+        parseFloat(
+            document.getElementById(
+                "proteinAbsorbance"
+            ).value
+        );
+
+    let epsilon =
+        parseFloat(
+            document.getElementById(
+                "proteinEpsilon"
+            ).value
+        );
+
+    let path =
+        parseFloat(
+            document.getElementById(
+                "proteinPath"
+            ).value
+        );
+
+
+    if (isNaN(absorbance) ||
+        isNaN(epsilon) ||
+        isNaN(path)) {
+
+        document.getElementById(
+            "proteinResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (absorbance < 0 ||
+        epsilon <= 0 ||
+        path <= 0) {
+
+        document.getElementById(
+            "proteinResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let concentration =
+        absorbance /
+        (epsilon * path);
+
+
+    document.getElementById(
+        "proteinResult"
+    ).innerHTML =
+        "Protein Concentration = " +
+        concentration.toExponential(3) +
+        " mol/L";
+
+}
+
+
+/* =========================
+   GC%
+========================= */
+
+function calculateGC() {
+
+    let sequence =
+        document.getElementById(
+            "dnaSequence"
+        ).value
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+
+    if (sequence.length === 0) {
+
+        document.getElementById(
+            "gcResult"
+        ).innerHTML =
+            "Please enter a DNA sequence.";
+
+        return;
+    }
+
+
+    if (!/^[ATGC]+$/.test(sequence)) {
+
+        document.getElementById(
+            "gcResult"
+        ).innerHTML =
+            "Invalid DNA sequence. Use only A, T, G and C.";
+
+        return;
+    }
+
+
+    let gcCount = 0;
+
+
+    for (let base of sequence) {
+
+        if (base === "G" ||
+            base === "C") {
+
+            gcCount++;
+
+        }
+
+    }
+
+
+    let gcPercentage =
+        (gcCount / sequence.length) * 100;
+
+
+    document.getElementById(
+        "gcResult"
+    ).innerHTML =
+        "GC Content = " +
+        gcPercentage.toFixed(2) +
+        "%";
+
+}
+
+
+/* =========================
+   DNA MOLECULAR WEIGHT
+========================= */
+
+function calculateDNAWeight() {
+
+    let sequence =
+        document.getElementById(
+            "dnaWeightSequence"
+        ).value
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+
+    if (sequence.length === 0) {
+
+        document.getElementById(
+            "dnaWeightResult"
+        ).innerHTML =
+            "Please enter a DNA sequence.";
+
+        return;
+    }
+
+
+    if (!/^[ATGC]+$/.test(sequence)) {
+
+        document.getElementById(
+            "dnaWeightResult"
+        ).innerHTML =
+            "Invalid DNA sequence. Use only A, T, G and C.";
+
+        return;
+    }
+
+
+    let molecularWeight =
+        sequence.length * 330;
+
+
+    document.getElementById(
+        "dnaWeightResult"
+    ).innerHTML =
+        "Approximate DNA Molecular Weight = " +
+        molecularWeight.toFixed(2) +
+        " g/mol";
+
+}
+
+
+/* =========================
+   DNA COMPLEMENT
+========================= */
+
+function calculateComplement() {
+
+    let sequence =
+        document.getElementById(
+            "complementSequence"
+        ).value
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+
+    if (sequence.length === 0) {
+
+        document.getElementById(
+            "complementResult"
+        ).innerHTML =
+            "Please enter a DNA sequence.";
+
+        return;
+    }
+
+
+    if (!/^[ATGC]+$/.test(sequence)) {
+
+        document.getElementById(
+            "complementResult"
+        ).innerHTML =
+            "Invalid DNA sequence. Use only A, T, G and C.";
+
+        return;
+    }
+
+
+    let complement = "";
+
+
+    for (let base of sequence) {
+
+        if (base === "A")
+            complement += "T";
+
+        else if (base === "T")
+            complement += "A";
+
+        else if (base === "G")
+            complement += "C";
+
+        else if (base === "C")
+            complement += "G";
+
+    }
+
+
+    document.getElementById(
+        "complementResult"
+    ).innerHTML =
+        "Complementary Sequence = " +
+        complement;
+
+}
+
+
+/* =========================
+   UNIT CONVERTER
+========================= */
+
+function convertUnit() {
+
+    let value =
+        parseFloat(
+            document.getElementById(
+                "conversionValue"
+            ).value
+        );
+
+    let type =
+        document.getElementById(
+            "conversionType"
+        ).value;
+
+
+    if (isNaN(value)) {
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            "Please enter a value.";
+
+        return;
+    }
+
+
+    let result;
+
+
+    if (type === "ml_l") {
+
+        result = value / 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mL = " +
+            result + " L";
+
+    }
+
+
+    else if (type === "l_ml") {
+
+        result = value * 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " L = " +
+            result + " mL";
+
+    }
+
+
+    else if (type === "mg_g") {
+
+        result = value / 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mg = " +
+            result + " g";
+
+    }
+
+
+    else if (type === "g_mg") {
+
+        result = value * 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " g = " +
+            result + " mg";
+
+    }
+
+
+    else if (type === "ug_mg") {
+
+        result = value / 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " µg = " +
+            result + " mg";
+
+    }
+
+
+    else if (type === "mg_ug") {
+
+        result = value * 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mg = " +
+            result + " µg";
+
+    }
+
+
+    else if (type === "mmol_mol") {
+
+        result = value / 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mmol = " +
+            result + " mol";
+
+    }
+
+
+    else if (type === "mol_mmol") {
+
+        result = value * 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mol = " +
+            result + " mmol";
+
+    }
+
+
+    else if (type === "ml_ul") {
+
+        result = value * 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " mL = " +
+            result + " µL";
+
+    }
+
+
+    else if (type === "ul_ml") {
+
+        result = value / 1000;
+
+        document.getElementById(
+            "conversionResult"
+        ).innerHTML =
+            value + " µL = " +
+            result + " mL";
+
+    }
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchBiochemistry() {
+
+    let search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    let result =
+        document.getElementById(
+            "searchResult"
+        );
+
+
+    if (search === "") {
+
+        result.innerHTML =
+            "Type something to search.";
+
+        return;
+    }
+
+
+    let topics = {
+
+        "biochemistry":
+            "<strong>Biochemistry</strong><br>" +
+            "The study of chemical processes and substances in living organisms.",
+
+        "cell":
+            "<strong>Cell</strong><br>" +
+            "The basic structural and functional unit of life.",
+
+        "metabolism":
+            "<strong>Metabolism</strong><br>" +
+            "The collection of chemical reactions occurring within living cells.",
+
+        "glycolysis":
+            "<strong>Glycolysis</strong><br>" +
+            "A metabolic pathway that converts glucose into pyruvate and produces ATP and NADH.",
+
+        "gluconeogenesis":
+            "<strong>Gluconeogenesis</strong><br>" +
+            "The synthesis of glucose from non-carbohydrate precursors.",
+
+        "glycogenesis":
+            "<strong>Glycogenesis</strong><br>" +
+            "The formation of glycogen from glucose.",
+
+        "glycogenolysis":
+            "<strong>Glycogenolysis</strong><br>" +
+            "The breakdown of glycogen.",
+
+        "krebs":
+            "<strong>Krebs Cycle</strong><br>" +
+            "A central metabolic pathway that oxidizes acetyl-CoA.",
+
+        "electron transport chain":
+            "<strong>Electron Transport Chain</strong><br>" +
+            "A series of protein complexes involved in electron transfer and ATP production.",
+
+        "oxidative phosphorylation":
+            "<strong>Oxidative Phosphorylation</strong><br>" +
+            "ATP production using energy from electron transfer and a proton gradient.",
+
+        "atp":
+            "<strong>ATP</strong><br>" +
+            "Adenosine triphosphate, the major cellular energy-transfer molecule.",
+
+        "adp":
+            "<strong>ADP</strong><br>" +
+            "Adenosine diphosphate, which can be phosphorylated to form ATP.",
+
+        "nad":
+            "<strong>NAD⁺</strong><br>" +
+            "An important electron carrier involved in oxidation-reduction reactions.",
+
+        "nadh":
+            "<strong>NADH</strong><br>" +
+            "The reduced form of NAD⁺.",
+
+        "fadh2":
+            "<strong>FADH₂</strong><br>" +
+            "A reduced electron carrier used by the electron transport chain.",
+
+        "enzyme":
+            "<strong>Enzymes</strong><br>" +
+            "Biological catalysts that increase reaction rates.",
+
+        "enzyme activity":
+            "<strong>Enzyme Activity</strong><br>" +
+            "The rate at which an enzyme converts substrate into product.",
+
+        "specific activity":
+            "<strong>Specific Activity</strong><br>" +
+            "Enzyme activity per unit amount of protein.",
+
+        "substrate":
+            "<strong>Substrate</strong><br>" +
+            "The molecule upon which an enzyme acts.",
+
+        "active site":
+            "<strong>Active Site</strong><br>" +
+            "The region of an enzyme where substrate binds and reaction occurs.",
+
+        "competitive inhibition":
+            "<strong>Competitive Inhibition</strong><br>" +
+            "An inhibitor competes with substrate for the active site.",
+
+        "noncompetitive inhibition":
+            "<strong>Noncompetitive Inhibition</strong><br>" +
+            "An inhibitor decreases enzyme activity without simply competing for the active site.",
+
+        "michaelis menten":
+            "<strong>Michaelis–Menten Equation</strong><br>" +
+            "v = (Vmax × [S]) ÷ (Km + [S]).",
+
+        "km":
+            "<strong>Km</strong><br>" +
+            "The substrate concentration at which velocity is half of Vmax.",
+
+        "vmax":
+            "<strong>Vmax</strong><br>" +
+            "The maximum reaction velocity.",
+
+        "protein":
+            "<strong>Proteins</strong><br>" +
+            "Biological macromolecules made from amino acids.",
+
+        "amino acid":
+            "<strong>Amino Acids</strong><br>" +
+            "The building blocks of proteins.",
+
+        "peptide bond":
+            "<strong>Peptide Bond</strong><br>" +
+            "A covalent bond formed between amino acids.",
+
+        "dna":
+            "<strong>DNA</strong><br>" +
+            "Deoxyribonucleic acid stores and transmits genetic information.",
+
+        "rna":
+            "<strong>RNA</strong><br>" +
+            "Ribonucleic acid participates in gene expression and protein synthesis.",
+
+        "nucleotide":
+            "<strong>Nucleotide</strong><br>" +
+            "A molecule consisting of a nitrogenous base, sugar and phosphate group(s).",
+
+        "replication":
+            "<strong>DNA Replication</strong><br>" +
+            "The process by which DNA is copied.",
+
+        "transcription":
+            "<strong>Transcription</strong><br>" +
+            "The production of RNA from a DNA template.",
+
+        "translation":
+            "<strong>Translation</strong><br>" +
+            "The process of producing proteins using mRNA information.",
+
+        "codon":
+            "<strong>Codon</strong><br>" +
+            "A three-nucleotide sequence in mRNA specifying an amino acid or signal.",
+
+        "mutation":
+            "<strong>Mutation</strong><br>" +
+            "A change in the nucleotide sequence of genetic material.",
+
+        "gc":
+            "<strong>GC Content</strong><br>" +
+            "The percentage of guanine and cytosine bases in DNA.",
+
+        "ph":
+            "<strong>pH</strong><br>" +
+            "pH = −log₁₀[H⁺].",
+
+        "poh":
+            "<strong>pOH</strong><br>" +
+            "pOH = −log₁₀[OH⁻].",
+
+        "buffer":
+            "<strong>Buffer</strong><br>" +
+            "A solution that resists changes in pH.",
+
+        "pka":
+            "<strong>pKa</strong><br>" +
+            "A measure related to an acid's tendency to donate a proton.",
+
+        "molarity":
+            "<strong>Molarity</strong><br>" +
+            "Moles of solute per litre of solution.",
+
+        "molality":
+            "<strong>Molality</strong><br>" +
+            "Moles of solute per kilogram of solvent.",
+
+        "normality":
+            "<strong>Normality</strong><br>" +
+            "Equivalents of solute per litre of solution.",
+
+        "dilution":
+            "<strong>Dilution</strong><br>" +
+            "A decrease in concentration by adding solvent.",
+
+        "beer lambert":
+            "<strong>Beer–Lambert Law</strong><br>" +
+            "A = εcl.",
+
+        "spectrophotometry":
+            "<strong>Spectrophotometry</strong><br>" +
+            "A technique used to measure light absorption.",
+
+        "absorbance":
+            "<strong>Absorbance</strong><br>" +
+            "A measure of how much light a sample absorbs.",
+
+        "vitamin":
+            "<strong>Vitamins</strong><br>" +
+            "Organic micronutrients required in small amounts.",
+
+        "mineral":
+            "<strong>Minerals</strong><br>" +
+            "Inorganic elements required for biological functions.",
+
+        "hormone":
+            "<strong>Hormones</strong><br>" +
+            "Chemical messengers that regulate physiological processes.",
+
+        "insulin":
+            "<strong>Insulin</strong><br>" +
+            "A peptide hormone involved in regulation of blood glucose.",
+
+        "glucagon":
+            "<strong>Glucagon</strong><br>" +
+            "A hormone that helps increase blood glucose during fasting.",
+
+        "membrane":
+            "<strong>Cell Membrane</strong><br>" +
+            "A selectively permeable structure surrounding cells.",
+
+        "antibody":
+            "<strong>Antibody</strong><br>" +
+            "A protein produced by B cells that recognizes an antigen.",
+
+        "antigen":
+            "<strong>Antigen</strong><br>" +
+            "A molecule recognized by components of the immune system.",
+
+        "oxidation":
+            "<strong>Oxidation</strong><br>" +
+            "Loss of electrons or increase in oxidation state.",
+
+        "reduction":
+            "<strong>Reduction</strong><br>" +
+            "Gain of electrons or decrease in oxidation state.",
+
+        "redox":
+            "<strong>Redox Reaction</strong><br>" +
+            "A reaction involving oxidation and reduction.",
+
+        "homeostasis":
+            "<strong>Homeostasis</strong><br>" +
+            "Maintenance of relatively stable internal conditions.",
+
+        "clinical biochemistry":
+            "<strong>Clinical Biochemistry</strong><br>" +
+            "Application of biochemical knowledge and laboratory analysis to health and disease."
+
+    };
+
+
+    let found = false;
+
+
+    for (let topic in topics) {
+
+        if (
+            topic.includes(search) ||
+            search.includes(topic)
+        ) {
+
+            result.innerHTML =
+                topics[topic];
+
+            found = true;
+
+            break;
+
+        }
+
+    }
+
+
+    if (!found) {
+
+        result.innerHTML =
+            "❌ No result found.<br><br>" +
+            "Try searching for:<br>" +
+            "Glycolysis, Enzyme, ATP, DNA, RNA, Protein, " +
+            "Lipid, Carbohydrate, Amino Acid, Krebs or pH.";
+
+    }
+
+}
+
+
+/* =========================
+   PERCENTAGE
+========================= */
+
+function calculatePercentage() {
+
+    let type =
+        document.getElementById(
+            "percentageType"
+        ).value;
+
+    let solute =
+        parseFloat(
+            document.getElementById(
+                "soluteAmount"
+            ).value
+        );
+
+    let solution =
+        parseFloat(
+            document.getElementById(
+                "solutionAmount"
+            ).value
+        );
+
+
+    if (isNaN(solute) ||
+        isNaN(solution)) {
+
+        document.getElementById(
+            "percentageResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (solute < 0 ||
+        solution <= 0) {
+
+        document.getElementById(
+            "percentageResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let percentage =
+        (solute / solution) * 100;
+
+
+    let unit = "";
+
+
+    if (type === "wv")
+        unit = "% w/v";
+
+    else if (type === "ww")
+        unit = "% w/w";
+
+    else if (type === "vv")
+        unit = "% v/v";
+
+
+    document.getElementById(
+        "percentageResult"
+    ).innerHTML =
+        "Percentage Concentration = " +
+        percentage.toFixed(2) +
+        " " +
+        unit;
+
+}
+
+
+/* =========================
+   SERIAL DILUTION
+========================= */
+
+function calculateSerialDilution() {
+
+    let initial =
+        parseFloat(
+            document.getElementById(
+                "initialConcentration"
+            ).value
+        );
+
+    let factor =
+        parseFloat(
+            document.getElementById(
+                "dilutionFactor"
+            ).value
+        );
+
+    let steps =
+        parseInt(
+            document.getElementById(
+                "dilutionSteps"
+            ).value
+        );
+
+
+    if (isNaN(initial) ||
+        isNaN(factor) ||
+        isNaN(steps)) {
+
+        document.getElementById(
+            "serialResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (initial <= 0 ||
+        factor <= 0 ||
+        steps <= 0) {
+
+        document.getElementById(
+            "serialResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let finalConcentration =
+        initial /
+        Math.pow(factor, steps);
+
+
+    let totalDilution =
+        Math.pow(factor, steps);
+
+
+    document.getElementById(
+        "serialResult"
+    ).innerHTML =
+        "Final Concentration = " +
+        finalConcentration.toExponential(3) +
+        "<br>Total Dilution = 1:" +
+        totalDilution;
+
+}
+
+
+/* =========================
+   RCF
+========================= */
+
+function calculateRCF() {
+
+    let radius =
+        parseFloat(
+            document.getElementById(
+                "rotorRadius"
+            ).value
+        );
+
+    let rpm =
+        parseFloat(
+            document.getElementById(
+                "rpm"
+            ).value
+        );
+
+
+    if (isNaN(radius) ||
+        isNaN(rpm)) {
+
+        document.getElementById(
+            "rcfResult"
+        ).innerHTML =
+            "Please enter both values.";
+
+        return;
+    }
+
+
+    if (radius <= 0 ||
+        rpm <= 0) {
+
+        document.getElementById(
+            "rcfResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let rcf =
+        1.118e-5 *
+        radius *
+        Math.pow(rpm, 2);
+
+
+    document.getElementById(
+        "rcfResult"
+    ).innerHTML =
+        "RCF = " +
+        rcf.toFixed(2) +
+        " × g";
+
+}
+
+
+/* =========================
+   DNA/RNA CONCENTRATION
+========================= */
+
+function calculateNucleicAcid() {
+
+    let type =
+        document.getElementById(
+            "nucleicType"
+        ).value;
+
+    let a260 =
+        parseFloat(
+            document.getElementById(
+                "a260"
+            ).value
+        );
+
+    let dilution =
+        parseFloat(
+            document.getElementById(
+                "dilutionFactorNA"
+            ).value
+        );
+
+
+    if (isNaN(a260) ||
+        isNaN(dilution)) {
+
+        document.getElementById(
+            "nucleicResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (a260 < 0 ||
+        dilution <= 0) {
+
+        document.getElementById(
+            "nucleicResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let factor =
+        type === "dna"
+            ? 50
+            : 40;
+
+
+    let concentration =
+        a260 *
+        dilution *
+        factor;
+
+
+    document.getElementById(
+        "nucleicResult"
+    ).innerHTML =
+        type.toUpperCase() +
+        " Concentration = " +
+        concentration.toFixed(2) +
+        " µg/mL";
+
+}
+
+
+/* =========================
+   PROTEIN MW
+========================= */
+
+function calculateProteinMW() {
+
+    let aminoAcids =
+        parseInt(
+            document.getElementById(
+                "aminoAcidCount"
+            ).value
+        );
+
+
+    if (isNaN(aminoAcids) ||
+        aminoAcids <= 0) {
+
+        document.getElementById(
+            "proteinMWResult"
+        ).innerHTML =
+            "Please enter a valid number of amino acids.";
+
+        return;
+    }
+
+
+    let molecularWeight =
+        aminoAcids * 110;
+
+
+    let kilodaltons =
+        molecularWeight / 1000;
+
+
+    document.getElementById(
+        "proteinMWResult"
+    ).innerHTML =
+        "Approximate Molecular Weight = " +
+        molecularWeight.toFixed(0) +
+        " Da<br>≈ " +
+        kilodaltons.toFixed(2) +
+        " kDa";
+
+}
+
+
+/* =========================
+   AMINO ACID
+========================= */
+
+function calculateAminoAcid() {
+
+    let molecularWeight =
+        parseFloat(
+            document.getElementById(
+                "aminoAcidSelect"
+            ).value
+        );
+
+
+    let selected =
+        document.getElementById(
+            "aminoAcidSelect"
+        );
+
+
+    let aminoAcidName =
+        selected.options[
+            selected.selectedIndex
+        ].text;
+
+
+    document.getElementById(
+        "aminoAcidResult"
+    ).innerHTML =
+        aminoAcidName +
+        "<br>Molecular Weight = " +
+        molecularWeight.toFixed(2) +
+        " g/mol";
+
+}
+
+
+/* =========================
+   ABSORBANCE → CONCENTRATION
+========================= */
+
+function calculateAbsorbanceConcentration() {
+
+    let absorbance =
+        parseFloat(
+            document.getElementById(
+                "absorbanceAC"
+            ).value
+        );
+
+    let epsilon =
+        parseFloat(
+            document.getElementById(
+                "epsilonAC"
+            ).value
+        );
+
+    let path =
+        parseFloat(
+            document.getElementById(
+                "pathAC"
+            ).value
+        );
+
+
+    if (isNaN(absorbance) ||
+        isNaN(epsilon) ||
+        isNaN(path)) {
+
+        document.getElementById(
+            "absorbanceConcentrationResult"
+        ).innerHTML =
+            "Please enter all values.";
+
+        return;
+    }
+
+
+    if (absorbance < 0 ||
+        epsilon <= 0 ||
+        path <= 0) {
+
+        document.getElementById(
+            "absorbanceConcentrationResult"
+        ).innerHTML =
+            "Please enter valid values.";
+
+        return;
+    }
+
+
+    let concentration =
+        absorbance /
+        (epsilon * path);
+
+
+    document.getElementById(
+        "absorbanceConcentrationResult"
+    ).innerHTML =
+        "Concentration = " +
+        concentration.toExponential(3) +
+        " mol/L";
+
+}
+
+
+/* =========================
+   A260/A280
+========================= */
+
+function calculateA260A280() {
+
+    let a260 =
+        parseFloat(
+            document.getElementById(
+                "purityA260"
+            ).value
+        );
+
+    let a280 =
+        parseFloat(
+            document.getElementById(
+                "purityA280"
+            ).value
+        );
+
+
+    if (isNaN(a260) ||
+        isNaN(a280)) {
+
+        document.getElementById(
+            "a260a280Result"
+        ).innerHTML =
+            "Please enter both A260 and A280 values.";
+
+        return;
+    }
+
+
+    if (a260 < 0 ||
+        a280 <= 0) {
+
+        document.getElementById(
+            "a260a280Result"
+        ).innerHTML =
+            "Please enter valid absorbance values.";
+
+        return;
+    }
+
+
+    let ratio =
+        a260 / a280;
+
+
+    let interpretation = "";
+
+
+    if (ratio >= 1.8 &&
+        ratio <= 2.0) {
+
+        interpretation =
+            "Good nucleic acid purity.";
+
+    }
+
+    else if (ratio < 1.8) {
+
+        interpretation =
+            "Possible protein or other contamination.";
+
+    }
+
+    else {
+
+        interpretation =
+            "Ratio is higher than the typical range; check sample quality and measurement conditions.";
+
+    }
+
+
+    document.getElementById(
+        "a260a280Result"
+    ).innerHTML =
+        "A260/A280 Ratio = " +
+        ratio.toFixed(2) +
+        "<br>" +
+        interpretation;
+
+}
+
+
+/* =========================
+   DNA Tm
+========================= */
+
+function calculateTm() {
+
+    let sequence =
+        document.getElementById(
+            "tmSequence"
+        ).value
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+
+    if (sequence.length === 0) {
+
+        document.getElementById(
+            "tmResult"
+        ).innerHTML =
+            "Please enter a DNA sequence.";
+
+        return;
+    }
+
+
+    if (!/^[ATGC]+$/.test(sequence)) {
+
+        document.getElementById(
+            "tmResult"
+        ).innerHTML =
+            "Invalid DNA sequence. Use only A, T, G and C.";
+
+        return;
+    }
+
+
+    let A = 0;
+    let T = 0;
+    let G = 0;
+    let C = 0;
+
+
+    for (let base of sequence) {
+
+        if (base === "A") A++;
+
+        else if (base === "T") T++;
+
+        else if (base === "G") G++;
+
+        else if (base === "C") C++;
+
+    }
+
+
+    let tm =
+        (2 * (A + T)) +
+        (4 * (G + C));
+
+
+    document.getElementById(
+        "tmResult"
+    ).innerHTML =
+
+        "DNA Length = " +
+        sequence.length +
+        " bases<br>" +
+
+        "A = " + A +
+        ", T = " + T +
+        ", G = " + G +
+        ", C = " + C +
+        "<br>" +
+
+        "Estimated Tm = " +
+        tm.toFixed(1) +
+        " °C";
+
+}
+  
+  /* =========================================
+   BIOCHEMISTRY TOPICS SYSTEM
+   ========================================= */
+
+function showTopic(topicId) {
+
+    // Hide all calculators
+    const calculators =
+        document.querySelectorAll(".calculator");
+
+    calculators.forEach(function(calculator) {
+        calculator.style.display = "none";
+    });
+
+
+    // Hide all topics
+    const topics =
+        document.querySelectorAll(".topic-section");
+
+    topics.forEach(function(topic) {
+        topic.style.display = "none";
+    });
+
+
+    // Show selected topic
+    const selectedTopic =
+        document.getElementById(topicId);
+
+    if (selectedTopic) {
+        selectedTopic.style.display = "block";
+    }
+
+
+    // Close the menu correctly
+    closeMenu();
+
+
+    // Scroll to top
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+     // =================================
+// BIOCHEMISTRY MCQ QUIZ
+// =================================
+
+
+    let quizQuestions = [
+
+     {
+     question:"Which molecule is the main energy currency of the cell?",
+     options:["DNA","ATP","Protein","Glucose"],
+     answer:"ATP"
+          },
+
+
+{
+question:"Which enzyme breaks down proteins into amino acids?",
+options:[
+"Lipase",
+"Amylase",
+"Protease",
+"DNA polymerase"
+],
+answer:"Protease"
+},
+
+
+{
+question:"The basic unit of nucleic acids is called:",
+options:[
+"Amino acid",
+"Nucleotide",
+"Fatty acid",
+"Glucose"
+],
+answer:"Nucleotide"
+},
+
+
+{
+question:"Glycolysis occurs in which part of the cell?",
+options:[
+"Nucleus",
+"Mitochondria",
+"Cytoplasm",
+"Ribosome"
+],
+answer:"Cytoplasm"
+}
+
+];
+
+
+let currentQuestion = 0;
+
+let score = 0;
+
+
+
+function showQuiz(){
+
+    closeMenu();
+
+
+    document.querySelectorAll(".calculator")
+    .forEach(function(item){
+        item.style.display="none";
+    });
+
+
+    document.querySelectorAll(".topic-section")
+    .forEach(function(item){
+        item.style.display="none";
+    });
+
+
+    document.getElementById("quizSection")
+    .style.display="block";
+
+
+    currentQuestion=0;
+    score=0;
+
+    loadQuestion();
+
+}
+
+
+
+function loadQuestion(){
+
+
+let q = quizQuestions[currentQuestion];
+
+
+document.getElementById("questionNumber")
+.innerHTML =
+"Question "+(currentQuestion+1)
++" / "
++quizQuestions.length;
+
+
+document.getElementById("quizQuestion")
+.innerHTML =
+q.question;
+
+
+let optionsHTML="";
+
+
+q.options.forEach(function(option){
+
+optionsHTML +=
+
+`
+<button class="quiz-option"
+onclick="checkAnswer(this,'${option}')">
+
+${option}
+
+</button>
+
+`;
+
+});
+
+
+document.getElementById("quizOptions")
+.innerHTML=optionsHTML;
+
+
+document.getElementById("quizScore")
+.innerHTML="Score: "+score;
+
+
+}
+
+
+
+function checkAnswer(button,answer){
+
+
+let correct =
+quizQuestions[currentQuestion].answer;
+
+
+if(answer===correct){
+
+button.classList.add("correct");
+score++;
+
+}
+
+else{
+
+button.classList.add("wrong");
+
+}
+
+
+}
+
+
+
+function nextQuestion(){
+
+
+currentQuestion++;
+
+
+if(currentQuestion < quizQuestions.length){
+
+loadQuestion();
+
+}
+
+else{
+
+
+document.getElementById("quizQuestion")
+.innerHTML =
+"Quiz Completed 🎉";
+
+
+document.getElementById("quizOptions")
+.innerHTML="";
+
+
+document.getElementById("quizScore")
+.innerHTML =
+"Final Score: "
++score+
+"/"
++quizQuestions.length;
+
+
+}
+
+
+}
+      
+</script>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+<footer>
+<p>🧪 Biochemistry Laboratory Calculator</p>
+<p>Developed by <b>Abdullahi Sani Garba</b></p>
+<p>Biochemistry Student | FUDMA</p>
+<p>© 2026 All Rights Reserved</p>
+</footer>
+
+
+</body>
+
+</html>
