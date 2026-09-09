@@ -656,7 +656,7 @@ footer {
     <h2>Molality Calculator</h2>
 
     <div class="formula">
-        Formula: m = moles of solute ÷ mass of solvent (kg)
+        Formula: m = moles of solute �� mass of solvent (kg)
     </div>
 
     <label>Amount of solute (mol):</label>
@@ -1000,36 +1000,35 @@ footer {
     <h2>Michaelis–Menten Calculator</h2>
 
     <div class="formula">
-        Formula:
-        v = (Vmax × [S]) ÷ (Km + [S])
+        Formula: V₀ = (Vmax × [S]) ÷ (Km + [S])
     </div>
 
-    <label>Substrate concentration [S]:</label>
+    <label>Vmax (µM/min):</label>
 
     <input
         type="number"
-        id="substrate"
-        placeholder="Enter [S]"
-        step="any">
-
-    <label>Km:</label>
-
-    <input
-        type="number"
-        id="km"
-        placeholder="Enter Km"
-        step="any">
-
-    <label>Vmax:</label>
-
-    <input
-        type="number"
-        id="vmax"
+        id="vmaxValue"
         placeholder="Enter Vmax"
         step="any">
 
+    <label>Km (µM):</label>
+
+    <input
+        type="number"
+        id="kmValue"
+        placeholder="Enter Km"
+        step="any">
+
+    <label>Substrate concentration [S] (µM):</label>
+
+    <input
+        type="number"
+        id="substrateConc"
+        placeholder="Enter substrate concentration"
+        step="any">
+
     <button onclick="calculateMichaelis()">
-        Calculate v
+        Calculate Velocity
     </button>
 
     <div class="result" id="michaelisResult">
@@ -1038,235 +1037,73 @@ footer {
 
 </div>
 
-<footer>
-    <p>&copy; 2024 Biochemistry Laboratory Calculator</p>
-    <p>All rights reserved</p>
-</footer>
 
-<script>
-// ===========================
-// MENU FUNCTIONS
-// ===========================
+<!-- =========================
+     DNA GC CALCULATOR
+========================= -->
 
-function toggleMenu() {
-    const menu = document.getElementById('sideMenu');
-    const overlay = document.getElementById('menuOverlay');
-    menu.classList.toggle('open');
-    overlay.classList.toggle('open');
-}
+<div class="calculator" id="gc" style="display:none;">
 
-function closeMenu() {
-    const menu = document.getElementById('sideMenu');
-    const overlay = document.getElementById('menuOverlay');
-    menu.classList.remove('open');
-    overlay.classList.remove('open');
-}
+    <h2>DNA GC% Calculator</h2>
 
-function showCalculator(id) {
-    // Hide all calculators
-    const calculators = document.querySelectorAll('.calculator');
-    calculators.forEach(calc => calc.style.display = 'none');
-    
-    // Show selected calculator
-    const selected = document.getElementById(id);
-    if (selected) {
-        selected.style.display = 'block';
-    }
-    
-    closeMenu();
-}
+    <div class="formula">
+        Formula: GC% = (G + C) ÷ Total × 100
+    </div>
 
-function showTopic(topic) {
-    alert('Topic: ' + topic + ' (Coming soon)');
-    closeMenu();
-}
+    <label>DNA Sequence:</label>
 
-function showQuiz() {
-    alert('Quiz feature (Coming soon)');
-    closeMenu();
-}
+    <input
+        type="text"
+        id="dnaSequence"
+        placeholder="Enter DNA sequence (A, T, G, C)"
+        style="font-family: monospace;">
 
-// ===========================
-// CALCULATOR FUNCTIONS
-// ===========================
+    <button onclick="calculateGC()">
+        Calculate GC%
+    </button>
 
-function calculateMolarity() {
-    const moles = parseFloat(document.getElementById('moles').value);
-    const volume = parseFloat(document.getElementById('volume').value);
-    
-    if (isNaN(moles) || isNaN(volume) || volume === 0) {
-        document.getElementById('result').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const molarity = moles / volume;
-    document.getElementById('result').innerHTML = `<strong>Molarity: ${molarity.toFixed(4)} M</strong>`;
-}
+    <div class="result" id="gcResult">
+        Result will appear here
+    </div>
 
-function calculateDilution() {
-    const c1 = parseFloat(document.getElementById('c1').value);
-    const c2 = parseFloat(document.getElementById('c2').value);
-    const v2 = parseFloat(document.getElementById('v2').value);
-    
-    if (isNaN(c1) || isNaN(c2) || isNaN(v2) || c2 === 0) {
-        document.getElementById('dilutionResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const v1 = (c2 * v2) / c1;
-    document.getElementById('dilutionResult').innerHTML = `<strong>V₁: ${v1.toFixed(4)} L</strong><br>You need ${v1.toFixed(4)} L of the initial solution`;
-}
+</div>
 
-function calculateMolecularWeight() {
-    const formula = document.getElementById('molecularFormula').value.trim();
-    
-    const atomicWeights = {
-        'H': 1.008, 'C': 12.01, 'N': 14.01, 'O': 16.00, 'P': 30.97, 'S': 32.06,
-        'Na': 22.99, 'K': 39.10, 'Ca': 40.08, 'Cl': 35.45, 'Fe': 55.85, 'Mg': 24.31
-    };
-    
-    let weight = 0;
-    const regex = /([A-Z][a-z]?)(\d*)/g;
-    let match;
-    
-    while ((match = regex.exec(formula)) !== null) {
-        const element = match[1];
-        const count = match[2] ? parseInt(match[2]) : 1;
-        
-        if (atomicWeights[element]) {
-            weight += atomicWeights[element] * count;
-        }
-    }
-    
-    if (weight === 0) {
-        document.getElementById('molecularResult').innerHTML = 'Invalid formula';
-    } else {
-        document.getElementById('molecularResult').innerHTML = `<strong>Molecular Weight: ${weight.toFixed(2)} g/mol</strong>`;
-    }
-}
 
-function calculateMolality() {
-    const moles = parseFloat(document.getElementById('molalityMoles').value);
-    const mass = parseFloat(document.getElementById('solventMass').value);
-    
-    if (isNaN(moles) || isNaN(mass) || mass === 0) {
-        document.getElementById('molalityResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const molality = moles / mass;
-    document.getElementById('molalityResult').innerHTML = `<strong>Molality: ${molality.toFixed(4)} mol/kg</strong>`;
-}
+<!-- =========================
+     DNA COMPLEMENTARY
+========================= -->
 
-function calculateNormality() {
-    const equivalents = parseFloat(document.getElementById('equivalents').value);
-    const volume = parseFloat(document.getElementById('normalityVolume').value);
-    
-    if (isNaN(equivalents) || isNaN(volume) || volume === 0) {
-        document.getElementById('normalityResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const normality = equivalents / volume;
-    document.getElementById('normalityResult').innerHTML = `<strong>Normality: ${normality.toFixed(4)} N</strong>`;
-}
+<div class="calculator" id="dnaComplement" style="display:none;">
 
-function calculatePH() {
-    const hydrogen = parseFloat(document.getElementById('hydrogen').value);
-    
-    if (isNaN(hydrogen) || hydrogen <= 0) {
-        document.getElementById('phResult').innerHTML = 'Please enter a valid positive number';
-        return;
-    }
-    
-    const pH = -Math.log10(hydrogen);
-    document.getElementById('phResult').innerHTML = `<strong>pH: ${pH.toFixed(2)}</strong>`;
-}
+    <h2>DNA Complementary Sequence</h2>
 
-function calculatePOH() {
-    const hydroxide = parseFloat(document.getElementById('hydroxide').value);
-    
-    if (isNaN(hydroxide) || hydroxide <= 0) {
-        document.getElementById('pohResult').innerHTML = 'Please enter a valid positive number';
-        return;
-    }
-    
-    const pOH = -Math.log10(hydroxide);
-    document.getElementById('pohResult').innerHTML = `<strong>pOH: ${pOH.toFixed(2)}</strong>`;
-}
+    <div class="formula">
+        A ↔ T, G ↔ C
+    </div>
 
-function calculateBuffer() {
-    const pka = parseFloat(document.getElementById('pka').value);
-    const baseConc = parseFloat(document.getElementById('baseConcentration').value);
-    const acidConc = parseFloat(document.getElementById('acidConcentration').value);
-    
-    if (isNaN(pka) || isNaN(baseConc) || isNaN(acidConc) || acidConc === 0) {
-        document.getElementById('bufferResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const ratio = baseConc / acidConc;
-    const pH = pka + Math.log10(ratio);
-    document.getElementById('bufferResult').innerHTML = `<strong>pH: ${pH.toFixed(2)}</strong><br>Using Henderson-Hasselbalch equation`;
-}
+    <label>DNA Sequence:</label>
 
-function calculateBeer() {
-    const absorbance = parseFloat(document.getElementById('absorbance').value);
-    const molarAbsorptivity = parseFloat(document.getElementById('molarAbsorptivity').value);
-    const concentration = parseFloat(document.getElementById('concentration').value);
-    const pathLength = parseFloat(document.getElementById('pathLength').value);
-    
-    if (isNaN(absorbance) || isNaN(molarAbsorptivity) || isNaN(concentration) || isNaN(pathLength)) {
-        document.getElementById('beerResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    // A = ε × c × l
-    const calculated = molarAbsorptivity * concentration * pathLength;
-    document.getElementById('beerResult').innerHTML = `<strong>Absorbance: ${calculated.toFixed(4)}</strong>`;
-}
+    <input
+        type="text"
+        id="dnaSeq"
+        placeholder="Enter DNA sequence"
+        style="font-family: monospace;">
 
-function calculateEnzymeActivity() {
-    const product = parseFloat(document.getElementById('productAmount').value);
-    const time = parseFloat(document.getElementById('reactionTime').value);
-    
-    if (isNaN(product) || isNaN(time) || time === 0) {
-        document.getElementById('enzymeResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const activity = product / time;
-    document.getElementById('enzymeResult').innerHTML = `<strong>Enzyme Activity: ${activity.toFixed(4)} µmol/min</strong>`;
-}
+    <button onclick="calculateComplement()">
+        Calculate Complement
+    </button>
 
-function calculateSpecificActivity() {
-    const activity = parseFloat(document.getElementById('specificEnzymeActivity').value);
-    const protein = parseFloat(document.getElementById('proteinAmount').value);
-    
-    if (isNaN(activity) || isNaN(protein) || protein === 0) {
-        document.getElementById('specificActivityResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const specific = activity / protein;
-    document.getElementById('specificActivityResult').innerHTML = `<strong>Specific Activity: ${specific.toFixed(4)} µmol/min/mg</strong>`;
-}
+    <div class="result" id="complementResult">
+        Result will appear here
+    </div>
 
-function calculateMichaelis() {
-    const substrate = parseFloat(document.getElementById('substrate').value);
-    const km = parseFloat(document.getElementById('km').value);
-    const vmax = parseFloat(document.getElementById('vmax').value);
-    
-    if (isNaN(substrate) || isNaN(km) || isNaN(vmax)) {
-        document.getElementById('michaelisResult').innerHTML = 'Please enter valid numbers';
-        return;
-    }
-    
-    const v = (vmax * substrate) / (km + substrate);
-    document.getElementById('michaelisResult').innerHTML = `<strong>Reaction Velocity (v): ${v.toFixed(4)}</strong>`;
-}
+</div>
 
-</script>
+<!-- =========================
+     SCRIPT LINK
+========================= -->
+
+<script src="script.js"></script>
 
 </body>
 
